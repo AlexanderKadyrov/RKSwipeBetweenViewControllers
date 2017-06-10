@@ -166,6 +166,6 @@
 
 #pragma mark - Block
 
-@property (nonatomic, copy) void (^blockTransitionCompletion)();
+@property (nonatomic, copy) void (^blockTransitionCompletion)(NSInteger viewIndex);
 
 @end

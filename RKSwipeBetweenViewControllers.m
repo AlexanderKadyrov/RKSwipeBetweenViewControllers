@@ -44,13 +44,13 @@ CGFloat X_OFFSET = 8.0;
     UIPageViewController *controller = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
                                                                        navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
                                                                                      options:nil];
+    controller.view.backgroundColor = [UIColor whiteColor];
     
     self = [super initWithRootViewController:controller];
     
     if (self) {
         [self.navigationBar setBackgroundImage:[self imageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
         self.navigationBar.translucent = NO;
-        controller.view.backgroundColor = self.pageViewControllerColor ? self.pageViewControllerColor : [UIColor whiteColor];
         self.selectionColors = [selectionColors copy];
         self.views = [views copy];
         self.currentPageIndex = 0;
@@ -95,6 +95,13 @@ CGFloat X_OFFSET = 8.0;
     [self.navigationView addSubview:self.selectionBar];
 }
 
+#pragma mark - Set
+
+- (void)setPageViewControllerColor:(UIColor *)pageViewControllerColor {
+    _pageViewControllerColor = pageViewControllerColor;
+    self.topViewController.view.backgroundColor = pageViewControllerColor;
+}
+
 #pragma mark - Sync
 
 - (void)syncScrollView {
@@ -119,7 +126,7 @@ CGFloat X_OFFSET = 8.0;
                         [weakSelf updateCurrentPageIndex:i];
                         [weakSelf.selectionBar setBackgroundColor:[weakSelf selectionColorWithIndex:i]];
                         if (weakSelf.blockTransitionCompletion) {
-                            weakSelf.blockTransitionCompletion();
+                            weakSelf.blockTransitionCompletion(i);
                         }
                     }
                 }];
@@ -132,7 +139,7 @@ CGFloat X_OFFSET = 8.0;
                         [weakSelf updateCurrentPageIndex:i];
                         [weakSelf.selectionBar setBackgroundColor:[weakSelf selectionColorWithIndex:i]];
                         if (weakSelf.blockTransitionCompletion) {
-                            weakSelf.blockTransitionCompletion();
+                            weakSelf.blockTransitionCompletion(i);
                         }
                     }
                 }];
@@ -181,7 +188,7 @@ CGFloat X_OFFSET = 8.0;
         self.currentPageIndex = [self.views indexOfObject:[pageViewController.viewControllers lastObject]];
         self.selectionBar.backgroundColor = [self selectionColorWithIndex:self.currentPageIndex];
         if (self.blockTransitionCompletion) {
-            self.blockTransitionCompletion();
+            self.blockTransitionCompletion(self.currentPageIndex);
         }
     }
 }
