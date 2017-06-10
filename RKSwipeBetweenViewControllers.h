@@ -164,4 +164,8 @@
 @property (nonatomic, strong) UIColor *pageViewControllerColor;
 @property (nonatomic, strong) UIColor *buttonColor;
 
+#pragma mark - Block
+
+@property (nonatomic, copy) void (^blockTransitionCompletion)();
+
 @end
