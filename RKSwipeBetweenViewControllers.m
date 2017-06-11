@@ -49,8 +49,7 @@ CGFloat X_OFFSET = 8.0;
     self = [super initWithRootViewController:controller];
     
     if (self) {
-        [self.navigationBar setBackgroundImage:[self imageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
-        self.navigationBar.translucent = NO;
+        [self setNavigationBarDefaultColor];
         self.selectionColors = [selectionColors copy];
         self.views = [views copy];
         self.currentPageIndex = 0;
@@ -60,6 +59,11 @@ CGFloat X_OFFSET = 8.0;
     }
     
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self setNavigationBarDefaultColor];
 }
 
 #pragma mark - Setup
@@ -100,6 +104,11 @@ CGFloat X_OFFSET = 8.0;
 - (void)setPageViewControllerColor:(UIColor *)pageViewControllerColor {
     _pageViewControllerColor = pageViewControllerColor;
     self.topViewController.view.backgroundColor = pageViewControllerColor;
+}
+
+- (void)setNavigationBarDefaultColor {
+    [self.navigationBar setBackgroundImage:[self imageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
+    self.navigationBar.translucent = NO;
 }
 
 #pragma mark - Sync
