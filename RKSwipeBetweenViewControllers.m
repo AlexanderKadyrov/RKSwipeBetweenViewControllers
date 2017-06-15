@@ -29,6 +29,7 @@ CGFloat X_OFFSET = 8.0;
 @property (nonatomic, strong) UIView *selectionBar;
 @property (nonatomic) NSInteger currentPageIndex;
 @property (nonatomic) BOOL isPageScrollingFlag;
+@property (nonatomic) BOOL hasAppearedFlag;
 @end
 
 @implementation RKSwipeBetweenViewControllers
@@ -62,12 +63,11 @@ CGFloat X_OFFSET = 8.0;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self setNavigationBarDefaultColor];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setupPageViewController];
-    [self setupSegmentButtons];
+    if ( ! self.hasAppearedFlag) {
+        [self setupPageViewController];
+        [self setupSegmentButtons];
+        self.hasAppearedFlag = YES;
+    }
 }
 
 #pragma mark - Setup
