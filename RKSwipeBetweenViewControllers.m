@@ -54,8 +54,6 @@ CGFloat X_OFFSET = 8.0;
         self.views = [views copy];
         self.currentPageIndex = 0;
         self.isPageScrollingFlag = NO;
-        [self setupPageViewController];
-        [self setupSegmentButtons];
     }
     
     return self;
@@ -64,6 +62,12 @@ CGFloat X_OFFSET = 8.0;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self setNavigationBarDefaultColor];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setupPageViewController];
+    [self setupSegmentButtons];
 }
 
 #pragma mark - Setup
