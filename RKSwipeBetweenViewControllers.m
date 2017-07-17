@@ -115,7 +115,7 @@ CGFloat X_OFFSET = 8.0;
     self.navigationBar.translucent = NO;
 }
 
-- (void)setViewControllerIndex:(NSUInteger)index direction:(UIPageViewControllerNavigationDirection)direction animated:(BOOL)animated {
+- (void)setViewControllerAtIndex:(NSUInteger)index direction:(UIPageViewControllerNavigationDirection)direction animated:(BOOL)animated {
     if (index > self.views.count-1) {
         return;
     }
