@@ -115,6 +115,13 @@ CGFloat X_OFFSET = 8.0;
     self.navigationBar.translucent = NO;
 }
 
+- (void)setViewControllerIndex:(NSUInteger)index direction:(UIPageViewControllerNavigationDirection)direction animated:(BOOL)animated {
+    if (index > self.views.count-1) {
+        return;
+    }
+    [self.pageViewController setViewControllers:@[[self.views objectAtIndex:index]] direction:direction animated:animated completion:nil];
+}
+
 #pragma mark - Sync
 
 - (void)syncScrollView {
