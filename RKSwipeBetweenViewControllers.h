@@ -161,6 +161,7 @@
 
 #pragma mark - Properties
 
+@property (nonatomic, assign, readonly) NSInteger currentPageIndex;
 @property (nonatomic, strong) UIColor *pageViewControllerColor;
 @property (nonatomic, strong) UIColor *buttonColor;
 

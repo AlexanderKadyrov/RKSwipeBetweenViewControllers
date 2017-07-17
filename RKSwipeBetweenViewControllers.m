@@ -27,7 +27,6 @@ CGFloat X_OFFSET = 8.0;
 @property (nonatomic) UIScrollView *pageScrollView;
 @property (nonatomic, strong) UIView *navigationView;
 @property (nonatomic, strong) UIView *selectionBar;
-@property (nonatomic) NSInteger currentPageIndex;
 @property (nonatomic) BOOL isPageScrollingFlag;
 @property (nonatomic) BOOL hasAppearedFlag;
 @end
