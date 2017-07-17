@@ -52,7 +52,7 @@ CGFloat X_OFFSET = 8.0;
         [self setNavigationBarDefaultColor];
         self.selectionColors = [selectionColors copy];
         self.views = [views copy];
-        self.currentPageIndex = 0;
+        _currentPageIndex = 0;
         self.isPageScrollingFlag = NO;
     }
     
@@ -168,7 +168,7 @@ CGFloat X_OFFSET = 8.0;
 }
 
 - (void)updateCurrentPageIndex:(int)newIndex {
-    self.currentPageIndex = newIndex;
+    _currentPageIndex = newIndex;
 }
 
 #pragma mark - UIScrollView Delegate
@@ -204,7 +204,7 @@ CGFloat X_OFFSET = 8.0;
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     if (completed) {
-        self.currentPageIndex = [self.views indexOfObject:[pageViewController.viewControllers lastObject]];
+        _currentPageIndex = [self.views indexOfObject:[pageViewController.viewControllers lastObject]];
         self.selectionBar.backgroundColor = [self selectionColorWithIndex:self.currentPageIndex];
         if (self.blockTransitionCompletion) {
             self.blockTransitionCompletion(self.currentPageIndex);
