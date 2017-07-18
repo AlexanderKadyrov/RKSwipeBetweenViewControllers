@@ -171,6 +171,6 @@
 
 #pragma mark - Set
 
-- (void)setViewControllerAtIndex:(NSUInteger)index direction:(UIPageViewControllerNavigationDirection)direction animated:(BOOL)animated;
+- (void)setViewControllerAtIndex:(NSInteger)index animated:(BOOL)animated;
 
 @end

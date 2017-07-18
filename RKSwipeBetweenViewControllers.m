@@ -102,6 +102,14 @@ CGFloat X_OFFSET = 8.0;
     [self.navigationView addSubview:self.selectionBar];
 }
 
+#pragma mark - Movement
+
+- (void)tapSegmentButtonAction:(UIButton *)button {
+    if ( ! self.isPageScrollingFlag) {
+        [self setViewControllerAtIndex:button.tag animated:YES];
+    }
+}
+
 #pragma mark - Set
 
 - (void)setPageViewControllerColor:(UIColor *)pageViewControllerColor {
@@ -114,11 +122,35 @@ CGFloat X_OFFSET = 8.0;
     self.navigationBar.translucent = NO;
 }
 
-- (void)setViewControllerAtIndex:(NSUInteger)index direction:(UIPageViewControllerNavigationDirection)direction animated:(BOOL)animated {
-    if (index > self.views.count-1) {
-        return;
+- (void)setViewControllerAtIndex:(NSInteger)index animated:(BOOL)animated {
+    NSInteger tempIndex = self.currentPageIndex;
+    __weak typeof(self) weakSelf = self;
+    if (index > tempIndex) {
+        for (int i = (int)tempIndex+1; i<=index; i++) {
+            [self.pageViewController setViewControllers:@[[self.views objectAtIndex:i]] direction:UIPageViewControllerNavigationDirectionForward animated:animated completion:^(BOOL complete) {
+                if (complete) {
+                    [weakSelf updateCurrentPageIndex:i];
+                    [weakSelf.selectionBar setBackgroundColor:[weakSelf selectionColorWithIndex:i]];
+                    if (weakSelf.blockTransitionCompletion) {
+                        weakSelf.blockTransitionCompletion(i);
+                    }
+                }
+            }];
+        }
     }
-    [self.pageViewController setViewControllers:@[[self.views objectAtIndex:index]] direction:direction animated:animated completion:nil];
+    else if (index < tempIndex) {
+        for (int i = (int)tempIndex-1; i >= index; i--) {
+            [self.pageViewController setViewControllers:@[[self.views objectAtIndex:i]] direction:UIPageViewControllerNavigationDirectionReverse animated:animated completion:^(BOOL complete){
+                if (complete) {
+                    [weakSelf updateCurrentPageIndex:i];
+                    [weakSelf.selectionBar setBackgroundColor:[weakSelf selectionColorWithIndex:i]];
+                    if (weakSelf.blockTransitionCompletion) {
+                        weakSelf.blockTransitionCompletion(i);
+                    }
+                }
+            }];
+        }
+    }
 }
 
 #pragma mark - Sync
@@ -128,41 +160,6 @@ CGFloat X_OFFSET = 8.0;
         if([view isKindOfClass:[UIScrollView class]]) {
             self.pageScrollView = (UIScrollView *)view;
             self.pageScrollView.delegate = self;
-        }
-    }
-}
-
-#pragma mark - Movement
-
-- (void)tapSegmentButtonAction:(UIButton *)button {
-    if ( ! self.isPageScrollingFlag) {
-        NSInteger tempIndex = self.currentPageIndex;
-        __weak typeof(self) weakSelf = self;
-        if (button.tag > tempIndex) {
-            for (int i = (int)tempIndex+1; i<=button.tag; i++) {
-                [self.pageViewController setViewControllers:@[[self.views objectAtIndex:i]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL complete) {
-                    if (complete) {
-                        [weakSelf updateCurrentPageIndex:i];
-                        [weakSelf.selectionBar setBackgroundColor:[weakSelf selectionColorWithIndex:i]];
-                        if (weakSelf.blockTransitionCompletion) {
-                            weakSelf.blockTransitionCompletion(i);
-                        }
-                    }
-                }];
-            }
-        }
-        else if (button.tag < tempIndex) {
-            for (int i = (int)tempIndex-1; i >= button.tag; i--) {
-                [self.pageViewController setViewControllers:@[[self.views objectAtIndex:i]] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL complete){
-                    if (complete) {
-                        [weakSelf updateCurrentPageIndex:i];
-                        [weakSelf.selectionBar setBackgroundColor:[weakSelf selectionColorWithIndex:i]];
-                        if (weakSelf.blockTransitionCompletion) {
-                            weakSelf.blockTransitionCompletion(i);
-                        }
-                    }
-                }];
-            }
         }
     }
 }
