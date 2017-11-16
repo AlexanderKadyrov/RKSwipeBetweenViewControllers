@@ -151,6 +151,11 @@ CGFloat X_OFFSET = 8.0;
             }];
         }
     }
+    else if (index == tempIndex) {
+        if (weakSelf.blockTransitionCompletion) {
+            weakSelf.blockTransitionCompletion(index);
+        }
+    }
 }
 
 #pragma mark - Sync
